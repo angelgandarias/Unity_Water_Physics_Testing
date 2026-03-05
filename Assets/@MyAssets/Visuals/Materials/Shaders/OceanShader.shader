@@ -191,10 +191,14 @@ Shader "Custom/URP_OceanShader"
 
                 output.positionCS = TransformWorldToHClip(p);
                 output.positionWS = p;
+
+                float3 t = normalize(tangent);
+                float3 n = calculatedNormal;
+                float3 b = normalize(cross(t,n));
                 
-                output.normalWS = calculatedNormal;
-                output.tangentWS = normalize(tangent);
-                output.bitangentWS = normalize(binormal);
+                output.normalWS = n;
+                output.tangentWS = t;
+                output.bitangentWS = b;
                 
                 output.uv = input.uv;
                 output.waveHeight = p.y - gridPoint.y; 
@@ -221,8 +225,8 @@ Shader "Custom/URP_OceanShader"
                 half3 normal1 = UnpackNormalScale(map1, _NormalStrength);
                 half3 normal2 = UnpackNormalScale(map2, _NormalStrength);
 
-                half3 tangentNormal = BlendNormals(normal1, normal2);
-                half3x3 tbn = half3x3(input.tangentWS, input.bitangentWS, input.normalWS);
+                half3 tangentNormal = BlendNormal(normal1, normal2);
+                half3x3 tbn = half3x3(normalize(input.tangentWS), normalize(input.bitangentWS), normalize(input.normalWS));
                 half3 finalNormalWS = normalize(mul(tangentNormal, tbn));
 
                 // Wave Peak Foam
@@ -235,6 +239,8 @@ Shader "Custom/URP_OceanShader"
                 half3 colorWithFoam = lerp(baseWaveColor, _FoamColor.rgb, totalFoamFactor);
 
                 InputData inputData = (InputData)0;
+                inputData.positionWS = input.positionWS;
+                inputData.bakedGI = SampleSH(finalNormalWS);
                 inputData.normalWS = finalNormalWS; 
                 inputData.viewDirectionWS = normalize(_WorldSpaceCameraPos - input.positionWS);
                 inputData.shadowCoord = TransformWorldToShadowCoord(input.positionWS);
@@ -252,6 +258,7 @@ Shader "Custom/URP_OceanShader"
                 // Keep rough wherever there is foam (peaks or wake trail)
                 surfaceData.smoothness = lerp(_Smoothness, 0.0, totalFoamFactor); 
                 surfaceData.alpha = _BaseColor.a;
+                surfaceData.occlusion = 0.5;
 
                 return UniversalFragmentPBR(inputData, surfaceData);
             }
