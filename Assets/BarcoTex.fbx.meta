@@ -1,34 +1,9 @@
 fileFormatVersion: 2
-guid: c5a9ddd08d832da438711ee273b36e14
+guid: 12bd8a3c1b0491e31b5ebb5f4106def6
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Cuerda
-    second: {fileID: -4649997291354132643, guid: 91c7767077d94d342a426212a403982b, type: 3}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Cuerda.001
-    second: {fileID: -4649997291354132643, guid: 91c7767077d94d342a426212a403982b, type: 3}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MaderaClara
-    second: {fileID: 2100000, guid: 5d57dc91378aabc4aa63ba6d9661aa9f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MaderaOscura
-    second: {fileID: 2100000, guid: dc680065439438649b9ff928b28c4239, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Vela
-    second: {fileID: 2100000, guid: 476ca651c27d28141aae71dbfbde4543, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -75,7 +50,7 @@ ModelImporter:
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
-    bakeAxisConversion: 0
+    bakeAxisConversion: 1
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4

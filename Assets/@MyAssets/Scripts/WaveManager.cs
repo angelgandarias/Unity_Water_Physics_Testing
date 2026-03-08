@@ -34,8 +34,20 @@ public class WaveManager : MonoBehaviour
         Shader.PropertyToID("_Wave6")
     };
 
+    //The wave data is saved so we only have to calculate it once each frame
+    private struct CachedWaveData
+    {
+        public Vector2 normalizedDir;
+        public float k;
+        public float c;
+        public float a;
+    }
+
+    private CachedWaveData[] cachedWaveData = new CachedWaveData[6];
+
     private void Update()
     {
+        UpdateWaveCache();
         SyncMaterial();
     }
 
@@ -50,24 +62,38 @@ public class WaveManager : MonoBehaviour
             oceanMaterial.SetVector(wavePropertyIDs[i], waveData);
         }
     }
-
-    private Vector3 CalculateGerstnerWave(WaveSettings wave, Vector2 gridPoint)
+    private void UpdateWaveCache()
     {
-        // Safety check matching the shader
-        if (wave.wavelength <= 0.001f) return Vector3.zero;
+        for (int i = 0; i < cachedWaveData.Length; i++)
+        {
+            cachedWaveData[i] = CalculateCache(waves[i]);
+        }
+    }
+    private CachedWaveData CalculateCache(WaveSettings wave)
+    {
+        CachedWaveData cache = new CachedWaveData();
+        // Prevent division by zero if you accidentally set wavelength to 0 in the inspector
+        float wLength = Mathf.Max(0.001f, wave.wavelength); 
+        
+        cache.k = Mathf.PI * 2f / wLength;
+        cache.c = Mathf.Sqrt(9.8f / cache.k);
+        cache.normalizedDir = wave.direction.normalized;
+        cache.a = wave.steepness / cache.k;
+        
+        return cache;
+    }
 
-        float k = Mathf.PI * 2f / wave.wavelength;
-        float c = Mathf.Sqrt(9.8f / k);
-        Vector2 d = wave.direction.normalized;
+    private Vector3 CalculateGerstnerWave(CachedWaveData cache, Vector2 gridPoint)
+    {
+
         
         // Time.time maps exactly to _Time.y in the shader
-        float f = k * (Vector2.Dot(d, gridPoint) - c * Time.time);
-        float a = wave.steepness / k;
+        float f = cache.k * (Vector2.Dot(cache.normalizedDir, gridPoint) - cache.c * Time.time);
         
         return new Vector3(
-            d.x * (a * Mathf.Cos(f)),
-            a * Mathf.Sin(f),
-            d.y * (a * Mathf.Cos(f))
+            cache.normalizedDir.x * (cache.a * Mathf.Cos(f)),
+            cache.a * Mathf.Sin(f),
+            cache.normalizedDir.y * (cache.a * Mathf.Cos(f))
         );
     }
 
@@ -81,9 +107,9 @@ public class WaveManager : MonoBehaviour
             Vector3 offset = Vector3.zero;
             
             // Loop through all waves to accumulate the offset
-            for (int w = 0; w < waves.Length; w++)
+            for (int w = 0; w < cachedWaveData.Length; w++)
             {
-                offset += CalculateGerstnerWave(waves[w], estimatedGridPoint);
+                offset += CalculateGerstnerWave(cachedWaveData[w], estimatedGridPoint);
             }
 
             Vector2 error = new Vector2(x - (estimatedGridPoint.x + offset.x), z - (estimatedGridPoint.y + offset.z));
@@ -93,9 +119,9 @@ public class WaveManager : MonoBehaviour
         Vector3 finalDisplacement = Vector3.zero;
         
         // Calculate the final height using the corrected grid point
-        for (int w = 0; w < waves.Length; w++)
+        for (int w = 0; w < cachedWaveData.Length; w++)
         {
-            finalDisplacement += CalculateGerstnerWave(waves[w], estimatedGridPoint);
+            finalDisplacement += CalculateGerstnerWave(cachedWaveData[w], estimatedGridPoint);
         }
 
         return baseWaterHeight + finalDisplacement.y;

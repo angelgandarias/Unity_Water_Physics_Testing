@@ -14,6 +14,7 @@ public class SmoothBoatCamera : MonoBehaviour
     [SerializeField] private float positionSmoothTime = 0.3f;
     [SerializeField] private float rotationSmoothSpeed = 3f;
 
+
     // Required for Vector3.SmoothDamp
     private Vector3 currentVelocity = Vector3.zero;
 

@@ -258,7 +258,7 @@ Shader "Custom/URP_OceanShader"
                 // Keep rough wherever there is foam (peaks or wake trail)
                 surfaceData.smoothness = lerp(_Smoothness, 0.0, totalFoamFactor); 
                 surfaceData.alpha = _BaseColor.a;
-                surfaceData.occlusion = 1;
+                surfaceData.occlusion = 1.0;
 
                 return UniversalFragmentPBR(inputData, surfaceData);
             }
