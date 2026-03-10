@@ -55,6 +55,7 @@ Shader "Custom/URP_OceanShader"
             
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _SHADOWS_SOFT
+            #pragma multi_compile_fog
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -73,8 +74,9 @@ Shader "Custom/URP_OceanShader"
                 float3 normalWS     : NORMAL;
                 float3 tangentWS    : TANGENT;
                 float3 bitangentWS  : BITANGENT;
+                float fogFactor     : TEXCOORD3;
                 float waveHeight    : TEXCOORD2;
-                float wakeIntensity : TEXCOORD3; // Pass wake data to fragment
+                float wakeIntensity : TEXCOORD4; // Pass wake data to fragment
             };
 
             TEXTURE2D(_BaseMap);
@@ -202,6 +204,7 @@ Shader "Custom/URP_OceanShader"
                 
                 output.uv = input.uv;
                 output.waveHeight = p.y - gridPoint.y; 
+                output.fogFactor = ComputeFogFactor(output.positionCS.z);
 
                 return output;
             }
@@ -259,8 +262,14 @@ Shader "Custom/URP_OceanShader"
                 surfaceData.smoothness = lerp(_Smoothness, 0.0, totalFoamFactor); 
                 surfaceData.alpha = _BaseColor.a;
                 surfaceData.occlusion = 1.0;
+                
 
-                return UniversalFragmentPBR(inputData, surfaceData);
+                half4 pbrColor = UniversalFragmentPBR(inputData, surfaceData);
+    
+                // Mix the fog color into the final PBR color based on the fogFactor
+                pbrColor.rgb = MixFog(pbrColor.rgb, input.fogFactor);
+    
+                return pbrColor;
             }
             ENDHLSL
         }
