@@ -18,10 +18,11 @@ public class WaveManager : MonoBehaviour
 
     [Header("Waves Setup")]
     [Tooltip("Make sure there are exactly 6 elements to match the shader")]
-    [SerializeField] private WaveSettings[] waves = new WaveSettings[6];
+    [SerializeField] public WaveSettings[] waves = new WaveSettings[6];
 
     [Header("Settings")]
     [SerializeField] private float baseWaterHeight = 0f;
+    [SerializeField] public float rippleStrenght = 0.15f;
 
     // We store our Property IDs in an array to match our waves array
     private readonly int[] wavePropertyIDs = new int[]
@@ -33,6 +34,8 @@ public class WaveManager : MonoBehaviour
         Shader.PropertyToID("_Wave5"),
         Shader.PropertyToID("_Wave6")
     };
+    private readonly int rippleStrenghtID = Shader.PropertyToID("_NormalStrength");
+
 
     //The wave data is saved so we only have to calculate it once each frame
     private struct CachedWaveData
@@ -61,6 +64,7 @@ public class WaveManager : MonoBehaviour
             Vector4 waveData = new Vector4(waves[i].direction.x, waves[i].direction.y, waves[i].steepness, waves[i].wavelength);
             oceanMaterial.SetVector(wavePropertyIDs[i], waveData);
         }
+        oceanMaterial.SetFloat(rippleStrenghtID, rippleStrenght);
     }
     private void UpdateWaveCache()
     {
