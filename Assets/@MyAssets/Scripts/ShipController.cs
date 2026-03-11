@@ -46,6 +46,7 @@ public class ShipController : MonoBehaviour
         {
             turnInput = Input.GetAxis("Horizontal");
         }
+        if(Input.GetKey(KeyCode.Escape)) Application.Quit();
     }
 
     private void FixedUpdate()
