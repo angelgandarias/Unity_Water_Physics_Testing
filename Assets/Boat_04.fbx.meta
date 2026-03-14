@@ -7,28 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Cuerda
-    second: {fileID: -4649997291354132643, guid: 91c7767077d94d342a426212a403982b, type: 3}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Cuerda.001
-    second: {fileID: -4649997291354132643, guid: 91c7767077d94d342a426212a403982b, type: 3}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MaderaClara
-    second: {fileID: 2100000, guid: 5d57dc91378aabc4aa63ba6d9661aa9f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MaderaOscura
-    second: {fileID: 2100000, guid: dc680065439438649b9ff928b28c4239, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Vela
-    second: {fileID: 2100000, guid: 476ca651c27d28141aae71dbfbde4543, type: 2}
+      name: MaderaCasco
+    second: {fileID: 2100000, guid: 7ec5ccdb73b8fd3218eaff2050e8cea9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
