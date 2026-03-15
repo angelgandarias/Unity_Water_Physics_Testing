@@ -126,8 +126,9 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HorizonFade: 200
+    - _IntersectionDistance: 0.35
     - _Metallic: 0
-    - _NormalStrength: 0.0934
+    - _NormalStrength: 0.15
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -143,7 +144,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Steepness: 0.645
     - _Surface: 0
-    - _WakeDepth: 0.8
+    - _WakeDepth: 0
     - _WaveLenght: 80
     - _WorkflowMode: 1
     - _ZWrite: 1
@@ -153,17 +154,18 @@ Material:
     - _Direction: {r: 1, g: 1.2, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 0.8, g: 0.9, b: 1, a: 1}
+    - _IntersectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _RippleSpeed: {r: 0.1, g: 0.05, b: -0.05, a: 0.1}
     - _SSSColor: {r: 0, g: 0.8, b: 0.5, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TipColor: {r: 0.18792278, g: 0.19644576, b: 0.38679248, a: 1}
-    - _WakeParams: {r: 113.18287, g: -19.96511, b: 50, a: 0}
-    - _Wave1: {r: 0.85, g: 0.25, b: 0.18208334, a: 51.4}
-    - _Wave2: {r: 0.7, g: 0.5, b: 0.14566667, a: 28}
-    - _Wave3: {r: 0.15, g: 0.95, b: 0.10925001, a: 17.3}
-    - _Wave4: {r: 0.3, g: 0.8, b: 0.10925001, a: 13.2}
-    - _Wave5: {r: 0.5, g: -0.6, b: 0.07283334, a: 8.2}
-    - _Wave6: {r: -0.4, g: -0.3, b: 0.07283334, a: 5.5}
+    - _WakeParams: {r: 43.6, g: 76.8, b: 50, a: 0}
+    - _Wave1: {r: 0.85, g: 0.25, b: 0.25, a: 51.4}
+    - _Wave2: {r: 0.7, g: 0.5, b: 0.2, a: 28}
+    - _Wave3: {r: 0.15, g: 0.95, b: 0.15, a: 17.3}
+    - _Wave4: {r: 0.3, g: 0.8, b: 0.15, a: 13.2}
+    - _Wave5: {r: 0.5, g: -0.6, b: 0.1, a: 8.2}
+    - _Wave6: {r: -0.4, g: -0.3, b: 0.1, a: 5.5}
     - _WaveA: {r: 1, g: 0.2, b: 0.4, a: 35}
     - _WaveB: {r: 0.4, g: 0.9, b: 0.35, a: 15}
     - _WaveC: {r: -0.3, g: 0.8, b: 0.2, a: 6}

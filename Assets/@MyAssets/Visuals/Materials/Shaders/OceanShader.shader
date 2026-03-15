@@ -21,6 +21,10 @@ Shader "Custom/URP_OceanShader"
         _SSSColor ("Subsurface Scattering Color", Color) = (0.0, 0.8, 0.6, 1)
         _SSSStrength ("SSS Strength", Range(0, 5)) = 1.5
 
+        [Header(Intersection Foam)]
+        _IntersectionColor ("Intersection Color", Color) = (1, 1, 1, 1)
+        _IntersectionDistance ("Intersection Distance", Range(0, 5)) = 1.0
+
         [Header(Surface Ripples)]
         [Normal] _NormalMap ("Ripple Normal Map", 2D) = "bump" {}
         _NormalStrength ("Ripple Strength", Range(0, 2)) = 0.5
@@ -59,6 +63,7 @@ Shader "Custom/URP_OceanShader"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
 
             struct Attributes
             {
@@ -77,6 +82,7 @@ Shader "Custom/URP_OceanShader"
                 float fogFactor     : TEXCOORD3;
                 float waveHeight    : TEXCOORD2;
                 float wakeIntensity : TEXCOORD4; // Pass wake data to fragment
+                
             };
 
             TEXTURE2D(_BaseMap);
@@ -116,6 +122,9 @@ Shader "Custom/URP_OceanShader"
                 float4 _Wave4;
                 float4 _Wave5;
                 float4 _Wave6;
+
+                float4 _IntersectionColor;
+                float _IntersectionDistance;
             CBUFFER_END
 
             float3 GerstnerWave(float4 wave, float3 p, inout float3 tangent, inout float3 binormal) 
@@ -253,15 +262,41 @@ Shader "Custom/URP_OceanShader"
                 half backlight = max(0, dot(inputData.viewDirectionWS, -mainLight.direction));
                 half sssFactor = pow(backlight, 4.0) * saturate(input.waveHeight * 0.5) * _SSSStrength;
                 
+                // Calculate the UV coordinate for the screen
+                float2 screenUV = input.positionCS.xy / _ScreenParams.xy;
+                
+                // Sample the depth of whatever is behind the water (the ship hull)
+                // This returns a value in 'Raw' depth
+                float rawDepth = SampleSceneDepth(screenUV);
+                
+                // Convert that raw depth into actual linear distance from the camera (in meters)
+                float sceneDepth = LinearEyeDepth(rawDepth, _ZBufferParams);
+                
+                // Calculate the linear distance of the water surface itself from the camera
+                float waterDepth = input.positionCS.w;
+                
+                // The difference tells us how 'deep' the water is at this pixel relative to the hull
+                float diff = sceneDepth - waterDepth;
+                
+                // Create a foam mask based on that difference
+                // '1' means the water is touching the hull, '0' means it's far away
+                float intersectionFoam = saturate(1.0 - (diff / _IntersectionDistance));
+                
+                // Enhance the foam look using the ripple normals we already have
+                // This makes the foam edge look jagged and 'water-like' instead of a soft glow
+                intersectionFoam = pow(intersectionFoam, 2.0); // Sharpen the edge
+
                 half3 finalAlbedo = colorWithFoam + (_SSSColor.rgb * sssFactor * mainLight.color);
+                half3 colorWithIntersection = lerp(finalAlbedo, _IntersectionColor.rgb, intersectionFoam);
 
                 SurfaceData surfaceData = (SurfaceData)0;
-                surfaceData.albedo = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv).rgb * finalAlbedo;
+                surfaceData.albedo = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv).rgb * colorWithIntersection;
                 surfaceData.metallic = _Metallic;
                 // Keep rough wherever there is foam (peaks or wake trail)
                 surfaceData.smoothness = lerp(_Smoothness, 0.0, totalFoamFactor); 
                 surfaceData.alpha = _BaseColor.a;
                 surfaceData.occlusion = 1.0;
+                
                 
 
                 half4 pbrColor = UniversalFragmentPBR(inputData, surfaceData);
