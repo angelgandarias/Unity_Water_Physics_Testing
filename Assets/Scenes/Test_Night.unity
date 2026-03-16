@@ -785,7 +785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12bd8a3c1b0491e31b5ebb5f4106def6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.03
+      value: 1.94
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12bd8a3c1b0491e31b5ebb5f4106def6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1870,7 +1870,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 476ca651c27d28141aae71dbfbde4543, type: 2}
+  - {fileID: 2100000, guid: 3bebd94ee742f04548f63857a539640a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1933,7 +1933,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 0.9652671, b: 0.870541, a: 1}
   m_Intensity: 0.2
   m_Range: 10
   m_SpotAngle: 30
@@ -2888,7 +2888,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 476ca651c27d28141aae71dbfbde4543, type: 2}
+  - {fileID: 2100000, guid: 3bebd94ee742f04548f63857a539640a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4132,7 +4132,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 476ca651c27d28141aae71dbfbde4543, type: 2}
+  - {fileID: 2100000, guid: 3bebd94ee742f04548f63857a539640a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5363,7 +5363,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 476ca651c27d28141aae71dbfbde4543, type: 2}
+  - {fileID: 2100000, guid: 3bebd94ee742f04548f63857a539640a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6687,7 +6687,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 20, y: 0, z: 20}
+    m_Scale: {x: 30, y: 0, z: 20}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -11692,7 +11692,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 476ca651c27d28141aae71dbfbde4543, type: 2}
+  - {fileID: 2100000, guid: 3bebd94ee742f04548f63857a539640a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12944,7 +12944,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 476ca651c27d28141aae71dbfbde4543, type: 2}
+  - {fileID: 2100000, guid: 3bebd94ee742f04548f63857a539640a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13790,7 +13790,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 20, y: 0, z: 20}
+    m_Scale: {x: 40, y: 0, z: 20}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -18705,7 +18705,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 476ca651c27d28141aae71dbfbde4543, type: 2}
+  - {fileID: 2100000, guid: 3bebd94ee742f04548f63857a539640a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19069,8 +19069,8 @@ MonoBehaviour:
   cloudDensityPropertyName: _Density
   calmCloudDensity: 0.45
   stormCloudDensity: 2
-  foregroundRain: {fileID: 0}
-  backgroundRain: {fileID: 0}
+  foregroundRain: {fileID: 1228090323}
+  backgroundRain: {fileID: 1644251230}
   maxForegroundDrops: 500
   maxBackgroundDrops: 2000
   sunLight: {fileID: 301537817}
