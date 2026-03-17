@@ -46,7 +46,13 @@ Shader "Custom/URP_OceanShader"
 
     SubShader
     {
-        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline" "Queue"="Geometry" }
+        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline" "Queue"="Geometry+2" }
+
+        Stencil
+        {
+            Ref 1
+            Comp NotEqual 
+        }
 
         Pass
         {
