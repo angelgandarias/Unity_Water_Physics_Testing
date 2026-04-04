@@ -79,7 +79,7 @@ public class ShipController : MonoBehaviour
             float power = moveInput > 0 ? enginePower : reversePower;
 
             // 3. Push the ship in the custom forward direction
-            rbody.AddForce(GetForwardVector() * (moveInput * power), ForceMode.Acceleration);
+            rbody.AddForce(GetForwardVector() * (moveInput * -power), ForceMode.Acceleration);
         }
     }
 

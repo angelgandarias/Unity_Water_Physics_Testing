@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CloudySky
-  m_Shader: {fileID: -6465566751694194690, guid: be8ec55b7d3c1c7ffa1458ee90b0a78a, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: ce4efb00442a0ce4cba6c33c567ed15d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []

@@ -13,7 +13,7 @@ public class WeatherController : MonoBehaviour
     [SerializeField] private float calmSteepnessMultiplier = 0.2f;
     [Tooltip("Multiplier for your Inspector wave steepness at max storm (Intensity 1)")]
     [SerializeField] private float stormSteepnessMultiplier = 1.25f;
-    private float[] originalSteepness; 
+    private float[] originalSteepness;
 
     [Header("Cloud Control")]
     [SerializeField] private GameObject cloudPlane;
@@ -38,9 +38,17 @@ public class WeatherController : MonoBehaviour
     [SerializeField] private float stormFogDensity = 0.03f;
     [SerializeField] private float calmSunIntensity = 1.2f;
     [SerializeField] private float stormSunIntensity = 0.2f;
+    [SerializeField] private float calmSkyboxExposure = 1.3f;
+    [SerializeField] private float stormSkyboxExposure = 0.4f;
+    private float skyboxExposure = 1.3f;
+    private Material skyboxMaterial;
 
+    [Header("Wind Control")]
+    [SerializeField] public Vector3 windDirection = new Vector3(0, 0, 0);
     private void Start()
     {
+        skyboxMaterial = new Material(RenderSettings.skybox);
+        RenderSettings.skybox = skyboxMaterial;
         cloudMaterial = new Material(cloudPlane.GetComponent<MeshRenderer>().material);
         cloudPlane.GetComponent<MeshRenderer>().material = cloudMaterial;
         // 1. Memorize the exact wave settings you dialed into the Inspector
@@ -68,7 +76,7 @@ public class WeatherController : MonoBehaviour
         if (waveManager != null && originalSteepness != null)
         {
             float currentMultiplier = Mathf.Lerp(calmSteepnessMultiplier, stormSteepnessMultiplier, stormIntensity);
-            
+
             for (int i = 0; i < waveManager.waves.Length; i++)
             {
                 waveManager.waves[i].steepness = originalSteepness[i] * currentMultiplier;
@@ -80,6 +88,10 @@ public class WeatherController : MonoBehaviour
         {
             float currentDensity = Mathf.Lerp(calmCloudDensity, stormCloudDensity, stormIntensity);
             cloudMaterial.SetFloat(cloudDensityID, currentDensity);
+            //Darken the skybox
+            skyboxExposure = Mathf.Lerp(calmSkyboxExposure, stormSkyboxExposure, stormIntensity);
+            skyboxMaterial.SetFloat("_Exposure", skyboxExposure);
+
         }
 
         // 3. Control the Rain Emission
@@ -100,12 +112,12 @@ public class WeatherController : MonoBehaviour
         {
             sunLight.intensity = Mathf.Lerp(calmSunIntensity, stormSunIntensity, stormIntensity);
         }
-        
+
         //Update Ripple strength
 
         if (waveManager != null)
         {
-            waveManager.rippleStrenght = Mathf.Lerp(0.03f,0.15f,stormIntensity);
+            waveManager.rippleStrenght = Mathf.Lerp(0.03f, 0.15f, stormIntensity);
         }
     }
 }
